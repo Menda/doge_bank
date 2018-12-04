@@ -1,0 +1,14 @@
+cache: pip
+
+git:
+  depth: 1
+  quiet: true
+
+services:
+  - docker
+
+before_install:
+  - docker-compose build
+
+script:
+  - docker-compose run --rm --entrypoint 'bash scripts/run-tests.sh' doge_bank
