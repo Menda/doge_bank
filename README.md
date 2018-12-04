@@ -28,6 +28,13 @@ For the admin panel `http://localhost:8000/admin`
 That's it!
 
 
+## Run the tests
+
+```bash
+docker-compose run --rm --entrypoint 'bash scripts/run-tests.sh' doge_bank
+```
+
+
 ## Clean database
 
 If you would like to clean the database and start the application, do:
