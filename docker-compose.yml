@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  doge_bank:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: doge_bank
+    image: doge_bank
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code

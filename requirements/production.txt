@@ -1,0 +1,3 @@
+-r base.txt
+
+# Include here specific packages used for production
