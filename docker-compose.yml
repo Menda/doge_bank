@@ -1,11 +1,36 @@
 version: "3.3"
 
 services:
+  postgres_doge_bank:
+    container_name: postgres_doge_bank
+    environment:
+      POSTGRES_DB: doge_bank
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    image: postgres:10.4-alpine
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "5432"
+    restart: always
+
   doge_bank:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: doge_bank
+    depends_on:
+      - postgres_doge_bank
+    environment:
+      DATABASE_NAME: doge_bank
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_HOST: postgres_doge_bank
     image: doge_bank
     ports:
       - "8000:8000"
