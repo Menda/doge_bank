@@ -31,6 +31,8 @@ services:
       DATABASE_USER: root
       DATABASE_PASSWORD: root
       DATABASE_HOST: postgres_doge_bank
+      SOCIAL_AUTH_GOOGLE_OAUTH2_KEY: 1072885500205-u06j7g2k7j907rbhd8ltns333aeikr0j.apps.googleusercontent.com
+      SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET: xxzeO0Y6vBes2BXWCVDHEh1K
     image: doge_bank
     ports:
       - "8000:8000"

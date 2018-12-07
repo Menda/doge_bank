@@ -39,11 +39,15 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
+THIRD_PARTY_APPS = [
+    'social_django',
+]
+
 LOCAL_APPS = [
     'accounts',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +64,9 @@ ROOT_URLCONF = 'doge_bank.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -128,3 +136,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Misc
+
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = 'accounts:contact-list'
+LOGOUT_REDIRECT_URL = '/'
+
+
+# Django Social Auth configuration
+# https://github.com/python-social-auth/social-app-django
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# To create new credentials, go to Step 3 in this article:
+# https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['SOCIAL_AUTH_GOOGLE_OAUTH2_KEY']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = \
+    os.environ['SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET']
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
