@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.views import View
+from django.views.generic import ListView, CreateView
+
+from .models import Contact
 
 
-class IndexView(LoginRequiredMixin, View):
-    def get(self, request):
-        return HttpResponse('TO DO')
+class ContactListView(LoginRequiredMixin, ListView):
+    model = Contact

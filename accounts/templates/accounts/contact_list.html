@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}">
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'accounts:contact-list' %}">Contacts</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Contacts</h1>
+
+<div id="content-main">
+    <ul class="object-tools">
+      <li>
+        <a href="{% url 'accounts:contact-add' %}" class="addlink">Add contact</a>
+      </li>
+    </ul>
+
+    <div class="module" id="changelist">
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="column-first_name">
+                           <div class="text"><span>First name</span></div>
+                           <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="column-last_name">
+                           <div class="text"><span>Last name</span></div>
+                           <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="column-iban">
+                           <div class="text"><span>IBAN</span></div>
+                           <div class="clear"></div>
+                        </th>
+                        <th scope="col" class="column-edit_delete">
+                           <div class="clear"></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in object_list %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td class="field-first_name">{{ contact.first_name }}</td>
+                        <td class="field-last_name">{{ contact.last_name }}</td>
+                        <td class="field-iban">{{ contact.iban }}</td>
+                        <th class="edit_delete"><a href="">Update / Delete</a></th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
