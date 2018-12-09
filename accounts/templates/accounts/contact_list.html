@@ -50,7 +50,11 @@
                         <td class="field-first_name">{{ contact.first_name }}</td>
                         <td class="field-last_name">{{ contact.last_name }}</td>
                         <td class="field-iban">{{ contact.iban }}</td>
-                        <th class="edit_delete"><a href="">Update / Delete</a></th>
+                        <th class="edit_delete">
+                            {% if request.user == contact.created_by %}
+                            <a href="{% url 'accounts:contact-update' contact.pk %}">Update / Delete</a>
+                            {% endif %}
+                        </th>
                     </tr>
                     {% endfor %}
                 </tbody>
