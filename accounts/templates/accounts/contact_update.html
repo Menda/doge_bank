@@ -26,7 +26,7 @@
         </div>
         <div class="submit-row">
             <p class="deletelink-box">
-                <a href="" class="deletelink">Delete</a>
+                <a href="{% url 'accounts:contact-delete' object.pk %}" class="deletelink">Delete</a>
             </p>
             <input type="submit" value="Save">
         </div>

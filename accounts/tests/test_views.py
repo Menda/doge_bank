@@ -154,3 +154,44 @@ class ContactUpdateViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'],
                          f"{settings.LOGIN_URL}?next={self.url}")
+
+
+class ContactDeleteViewTest(TestCase):
+    def setUp(self):
+        user_model = get_user_model()
+        self.user = user_model.objects.create(username='Rafito')
+
+        self.contact = Contact.objects.create(
+            first_name='Rafitö',
+            last_name='Muñoz',
+            iban='DE89 3704 0044 0532 0130 00',
+            created_by=self.user)
+        self.url = reverse('accounts:contact-delete', args=[self.contact.pk])
+
+    def test_delete_confirmation_page_shows_up(self):
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete(self):
+        self.client.force_login(self.user)
+        response = self.client.post(self.url, {})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'],
+                         reverse('accounts:contact-list'))
+        self.assertRaises(
+            Contact.DoesNotExist,
+            Contact.objects.get,
+            pk=self.contact.pk)
+
+    def test_not_found(self):
+        self.client.force_login(self.user)
+        response = self.client.get(
+            reverse('accounts:contact-delete', args=[123456]))
+        self.assertEqual(response.status_code, 404)
+
+    def test_not_authorised(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'],
+                         f"{settings.LOGIN_URL}?next={self.url}")
